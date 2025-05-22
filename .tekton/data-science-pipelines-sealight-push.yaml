@@ -168,43 +168,6 @@ spec:
       workspaces:
       - name: basic-auth
         workspace: git-auth
-    - name: sealights-instrumentation
-      runAfter:
-        - clone-repository
-      taskRef:
-        params:
-        - name: name
-          value: sealights-go-oci-ta
-        - name: bundle
-          value: quay.io/konflux-ci/tekton-catalog/task-sealights-go-oci-ta:0.1@sha256:736cf77e5b64e726257776eb1a9ed6a2b459940224873d20b7b177afbefab675
-        - name: kind
-          value: task
-        resolver: bundles
-      params:
-        - name: SOURCE_ARTIFACT
-          value: $(tasks.clone-repository.results.SOURCE_ARTIFACT)
-        - name: nodejs-version
-          value: "18"
-        - name: component
-          value: data-science-pipelines-sealight 
-        - name: branch
-          value: '{{ source_branch }}'
-        - name: revision
-          value: '{{ revision }}'
-        - name: repository-url
-          value: '{{ repo_url }}'
-        - name: test-event
-          value: '{{ event_type }}'
-        - name: pull-request-number
-          value: '{{ pull_request_number }}'
-        - name: target-branch
-          value: '{{ target_branch }}'
-        - name: exclude
-          value: ['examples/**/*.js,test/**/*.js']
-        - name: workspace-path
-          value: "frontend/public"
-        - name: is-frontend
-          value: "true"
     - name: prefetch-dependencies
       params:
       - name: input
@@ -216,7 +179,7 @@ spec:
       - name: ociArtifactExpiresAfter
         value: $(params.image-expires-after)
       runAfter:
-      - sealights-instrumentation
+      - clone-repository
       taskRef:
         params:
         - name: name
@@ -231,14 +194,12 @@ spec:
         workspace: git-auth
       - name: netrc
         workspace: netrc
-    - name: sealights-build-container
+    - name: build-container
       params:
-      - name: ADDITIONAL_SECRET
-        value: sealights-credentials 
       - name: IMAGE
-        value: $(params.sealights-output-image)
+        value: $(params.output-image)
       - name: DOCKERFILE
-        value: $(params.sealights-dockerfile)
+        value: $(params.dockerfile)
       - name: CONTEXT
         value: $(params.path-context)
       - name: HERMETIC
@@ -252,20 +213,16 @@ spec:
       - name: BUILD_ARGS
         value:
         - $(params.build-args[*])
-        - "SEALIGHTS_BUILD_NAME=$(tasks.sealights-instrumentation.results.sealights-build-name)"
-        - "SEALIGHTS_BSID=$(tasks.sealights-instrumentation.results.sealights-bsid)"
-        - "COMMIT={{revision}}"
       - name: BUILD_ARGS_FILE
         value: $(params.build-args-file)
       - name: PRIVILEGED_NESTED
         value: $(params.privileged-nested)
       - name: SOURCE_ARTIFACT
-        value: $(tasks.sealights-instrumentation.results.SOURCE_ARTIFACT)
+        value: $(tasks.prefetch-dependencies.results.SOURCE_ARTIFACT)
       - name: CACHI2_ARTIFACT
         value: $(tasks.prefetch-dependencies.results.CACHI2_ARTIFACT)
       runAfter:
       - prefetch-dependencies
-      - sealights-instrumentation
       taskRef:
         params:
         - name: name
