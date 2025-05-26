@@ -201,7 +201,7 @@ spec:
             - "github.com/moulalis/data-science-pipelines/pkg/pkg1-to-ignore"
             - "github.com/moulalis/data-science-pipelines/pkg/pkg2-to-ignore"
         - name: oci-storage
-          value: $(params.output-image).sealights.git
+          value: $(params.output-image).sealights
     - name: prefetch-dependencies
       params:
       - name: input
