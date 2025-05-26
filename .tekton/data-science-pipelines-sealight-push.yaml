@@ -23,7 +23,7 @@ spec:
   - name: revision
     value: '{{revision}}'
   - name: output-image
-    value: quay.io/redhat-user-workloads/mshikalw-tenant/data-science-pipelines-sealight:{{revision}}
+    value: https://quay.io/repository/mshikalw/dsp-sealight:{{revision}}
   - name: dockerfile
     value: backend/Dockerfile.konflux.api
   pipelineSpec:
