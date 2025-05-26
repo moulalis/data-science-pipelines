@@ -170,7 +170,7 @@ spec:
         workspace: git-auth
     - name: sealights-instrumentation
       runAfter:
-        - clone-repository
+      - clone-repository
       taskRef:
         params:
         - name: name
