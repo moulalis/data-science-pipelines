@@ -299,12 +299,12 @@ spec:
       - name: PRIVILEGED_NESTED
         value: $(params.privileged-nested)
       - name: SOURCE_ARTIFACT
-        value: $(tasks.sealights-instrumentation.results.SOURCE_ARTIFACT)
+        value: $(tasks.sealights-go-instrumentation.results.SOURCE_ARTIFACT)
       - name: CACHI2_ARTIFACT
         value: $(tasks.prefetch-dependencies.results.CACHI2_ARTIFACT)
       runAfter:
       - prefetch-dependencies
-      - sealights-instrumentation
+      - sealights-go-instrumentation
       taskRef:
         params:
         - name: name
