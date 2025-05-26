@@ -168,6 +168,41 @@ spec:
       workspaces:
       - name: basic-auth
         workspace: git-auth
+    - name: sealights-instrumentation
+      runAfter:
+      - clone-repository
+      taskRef:
+        params:
+        - name: name
+          value: sealights-go-oci-ta
+        - name: bundle
+          value: quay.io/konflux-ci/tekton-catalog/task-sealights-go-oci-ta:0.1@sha256:830e4fd25f250dd0c8b3619693c5691f260f54c8458424c4b5f9925e72b517aa
+        - name: kind
+          value: task
+        resolver: bundles
+      params:
+        - name: SOURCE_ARTIFACT
+          value: $(tasks.clone-repository.results.SOURCE_ARTIFACT)
+        - name: component
+          value: '{{ repo_name }}'
+        - name: branch
+          value: '{{ source_branch }}'
+        - name: revision
+          value: '{{ revision }}'
+        - name: repository-url
+          value: '{{ repo_url }}'
+        - name: test-event
+          value: '{{ event_type }}'
+        - name: pull-request-number
+          value: '{{ pull_request_number }}'
+        - name: target-branch
+          value: '{{ target_branch }}'
+        - name: packages-excluded
+          value:
+            - "github.com/moulalis/data-science-pipelines/pkg/pkg1-to-ignore"
+            - "github.com/moulalis/data-science-pipelines/pkg/pkg2-to-ignore"
+        - name: oci-storage
+          value: $(params.sealights-output-image).sealights.git
     - name: prefetch-dependencies
       params:
       - name: input
