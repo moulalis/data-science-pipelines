@@ -4,17 +4,18 @@ metadata:
   annotations:
     build.appstudio.openshift.io/repo: https://github.com/moulalis/data-science-pipelines?rev={{revision}}
     build.appstudio.redhat.com/commit_sha: '{{revision}}'
+    build.appstudio.redhat.com/pull_request_number: '{{pull_request_number}}'
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
-    pipelinesascode.tekton.dev/cancel-in-progress: "false"
+    pipelinesascode.tekton.dev/cancel-in-progress: "true"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch
+    pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch
       == "sealight-poc-1"
   creationTimestamp: null
   labels:
     appstudio.openshift.io/application: sealight-poc
     appstudio.openshift.io/component: data-science-pipelines-sealight
     pipelines.appstudio.openshift.io/type: build
-  name: data-science-pipelines-sealight-on-push
+  name: data-science-pipelines-sealight-on-pull-request
   namespace: mshikalw-tenant
 spec:
   params:
@@ -23,9 +24,11 @@ spec:
   - name: revision
     value: '{{revision}}'
   - name: output-image
-    value: quay.io/redhat-user-workloads/mshikalw-tenant/data-science-pipelines-sealight:{{revision}}
+    value: quay.io/redhat-user-workloads/mshikalw-tenant/data-science-pipelines-sealight:on-pr-{{revision}}
+  - name: image-expires-after
+    value: 5d
   - name: dockerfile
-    value: backend/api/Dockerfile
+    value: backend/Dockerfile.konflux.api
   pipelineSpec:
     description: |
       This pipeline is ideal for building container images from a Containerfile while maintaining trust after pipeline customization.
