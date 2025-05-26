@@ -24,6 +24,12 @@ spec:
     value: '{{revision}}'
   - name: output-image
     value: quay.io/redhat-user-workloads/mshikalw-tenant/data-science-pipelines-sealight:{{revision}}
+  - description: Private output image reference used for Sealights artifacts
+    name: sealights-output-image
+    type: string
+  - description: If you have a dedicated Dockerfile for Sealights instrumented image, use this parameter to point to that file
+    name: sealights-dockerfile
+    type: string
   - name: dockerfile
     value: backend/Dockerfile.konflux.api
   pipelineSpec:
