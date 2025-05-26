@@ -167,7 +167,7 @@ spec:
       workspaces:
       - name: basic-auth
         workspace: git-auth
-    - name: sealights-instrumentation
+    - name: sealights-go-instrumentation
       runAfter:
       - clone-repository
       taskRef:
@@ -175,7 +175,7 @@ spec:
         - name: name
           value: sealights-go-oci-ta
         - name: bundle
-          value: quay.io/konflux-ci/tekton-catalog/task-sealights-go-oci-ta:0.1@sha256:830e4fd25f250dd0c8b3619693c5691f260f54c8458424c4b5f9925e72b517aa
+          value: quay.io/konflux-ci/tekton-catalog/task-sealights-go-oci-ta:0.1
         - name: kind
           value: task
         resolver: bundles
@@ -213,7 +213,7 @@ spec:
       - name: ociArtifactExpiresAfter
         value: $(params.image-expires-after)
       runAfter:
-      - sealights-instrumentation
+      - sealights-go-instrumentation
       taskRef:
         params:
         - name: name
@@ -278,9 +278,9 @@ spec:
       - name: ADDITIONAL_SECRET
         value: sealights-credentials 
       - name: IMAGE
-        value: $(params.sealights-output-image)
+        value: $(params.output-image)
       - name: DOCKERFILE
-        value: $(params.sealights-dockerfile)
+        value: $(params.dockerfile)
       - name: CONTEXT
         value: $(params.path-context)
       - name: HERMETIC
