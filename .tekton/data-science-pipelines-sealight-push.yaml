@@ -232,7 +232,7 @@ spec:
     - name: build-container
       params:
       - name: ADDITIONAL_SECRET
-        value: sealights-credentials 
+        value: sealight-cred-poc 
       - name: IMAGE
         value: $(params.output-image)
       - name: DOCKERFILE
@@ -277,7 +277,7 @@ spec:
     - name: sealights-build-container
       params:
       - name: ADDITIONAL_SECRET
-        value: sealights-credentials 
+        value: sealight-cred-poc 
       - name: IMAGE
         value: $(params.output-image)
       - name: DOCKERFILE
