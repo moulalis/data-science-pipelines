@@ -168,7 +168,6 @@ spec:
       workspaces:
       - name: basic-auth
         workspace: git-auth
-    - name: sealights-instrumentation
     - name: prefetch-dependencies
       params:
       - name: input
