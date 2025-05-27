@@ -199,8 +199,10 @@ spec:
           value: '{{ target_branch }}'
         - name: packages-excluded
           value: 
-            - "github.com/moulalis/data-science-pipelines/pkg/pkg1-to-ignore"
-            - "github.com/moulalis/data-science-pipelines/pkg/pkg2-to-ignore"
+            - "github.com/moulalis/data-science-pipelines/samples"
+            - "github.com/moulalis/data-science-pipelines/proposals"
+            - "github.com/moulalis/data-science-pipelines/docs"
+            - "github.com/moulalis/data-science-pipelines/test"
         - name: oci-storage
           value: $(params.output-image).sealights
     - name: prefetch-dependencies
